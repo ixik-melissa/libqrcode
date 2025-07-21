@@ -31,6 +31,7 @@
 #include <concepts>
 #include <iterator>
 #include <optional>
+#include <limits>
 
 namespace qrcode::code::detail
 {
