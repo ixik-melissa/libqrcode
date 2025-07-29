@@ -1,3 +1,4 @@
 .vscode/
-build.log
+build/
 qrcode.svg
+.DS_Store
