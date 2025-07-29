@@ -96,7 +96,6 @@ int main()
 * Since the library is header-only, building is actually not necessary.
 * Just put the `include` folder of this project into your header search path and it should just work.
 * However, if you'd like to run the tests, please select the top-level of the project in order to run _CMake_.
-* For more information, please have a look at the _Dockerfile_ in the test folder and consider the remarks below.
 
 ## How to run the tests
 If you would like to run the tests, one has to add the following cmake flag: `-DQRCODE_TESTS_ENABLED:BOOL=True`
