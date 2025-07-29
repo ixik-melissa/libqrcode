@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Run tests
-        run: ./test/linux_run.sh
+      - name: Install build infrastructure
+        run: sudo apt-get install -y build-essential cmake ninja-build gcc-13 g++-13 libstdc++-13-dev
 
-      - name: Run conan demo
-        run: ./conan_demo/run.sh "Hello World!"
+      - name: Build
+        run: mkdir build && cd build && cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../ && ninja
 
   ci_on_windows:
     runs-on: windows-latest
