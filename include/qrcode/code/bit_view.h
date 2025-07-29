@@ -97,7 +97,7 @@ namespace qrcode::code::detail
         constexpr bit_view_sentinel() noexcept = default;
 
         template<class Iterator_, class Sentinel_>
-        [[nodiscard]] friend constexpr auto operator==(
+        friend constexpr auto operator==(
             bit_view_iterator<Iterator_> const& iterator, 
             bit_view_sentinel<Sentinel_> const& sentinel) noexcept;
 
