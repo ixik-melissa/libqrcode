@@ -46,7 +46,7 @@ namespace qrcode::micro_qr
             return designator.error_level;
         }
 
-        [[nodiscard]] friend constexpr auto make_designator(
+        friend constexpr auto make_designator(
             symbol_version version, std::optional<error_correction> error_level) noexcept 
         -> std::optional<symbol_designator>;
 
