@@ -30,7 +30,7 @@ endfunction()
 project(libqrcode)
 
 enable_testing()
-enable_cxx(20)
+enable_cxx(23)
 
 add_library(qrcode INTERFACE)
 
