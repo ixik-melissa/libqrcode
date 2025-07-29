@@ -6,7 +6,7 @@ Features include:
 * Completely constexpr
 * Code is (unit-)tested with `static_asserts` during compile-time
 * Utilizes standard library only
-* Uses C++20 Ranges
+* Uses Ranges
 * No C++ exceptions (however)
 
 # QR support
@@ -84,7 +84,7 @@ int main()
 ```
 
 # Requirements
-* C++20 compiler and standard library
+* C++ compiler and standard library
 * Supported:
    * gcc10 and libstdc++-10-dev or higher
    * msvc: Visual Studio 2019 16.10.0
