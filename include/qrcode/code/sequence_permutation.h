@@ -82,7 +82,7 @@ namespace qrcode::code::detail
     concept indexable_range = requires(T t)
     {
         { t[int{}] } -> std::convertible_to<typename T::value_type>;
-        std::ranges::range<T>;
+        requires std::ranges::range<T>;
     };
 
     template<indexable_range Container>
