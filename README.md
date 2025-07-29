@@ -8,7 +8,6 @@ Features include:
 * Utilizes standard library only
 * Uses C++20 Ranges
 * No C++ exceptions (however)
-* Supports Conan package manager
 
 # QR support
 Supported: 
@@ -29,13 +28,9 @@ Supported:
 * Encodings: Numeric, alphanumeric, byte and kanji encoding (where possible)
 
 # Usage
-One can either use the conan recipe provided in this repository or directly integrate the library 
-into your project. As this libary is header-only, it should be quite easy to setup. 
-Add the libqrcode include directory to your project's header search path
-
 In your project, just in include the header [`qrcode/qrcode.h`](include/qrcode/qrcode.h). 
-Micro QR api is located within namespace `micro_qr`.
-QR api is located within namespace `qr`.
+Micro QR API is located within namespace `micro_qr`.
+QR API is located within namespace `qr`.
 
 #### Simple example
 ```
@@ -91,8 +86,8 @@ int main()
 # Requirements
 * C++20 compiler and standard library
 * Supported:
-   * gcc10 and libstdc++-10-dev or higher (see [`test/linux.Dockerfile`](test/linux.Dockerfile))
-   * msvc: Visual Studio 2019 16.10.0 (see [`test/win.Dockerfile`](test/win.Dockerfile))
+   * gcc10 and libstdc++-10-dev or higher
+   * msvc: Visual Studio 2019 16.10.0
 * Not supported: 
   * clang doesn't seem to support all featured of C++20 needed to make this work
   * macOS (due to lack of C++20 features), support will be added in the future
@@ -110,20 +105,5 @@ If you would like to run the tests, one has to add the following cmake flag: `-D
 Building with tests enabled in _Debug_ configuration won't build due to an issue in _Microsoft_'s STL implementation. _Release_ configuration works though.
 
 # CI builds
-CI builds usually consists of a test build and a conan demo build. 
-If and only if both builds were successful, the CI state is green.
-
-# Tests
-All tests are usually built and run in docker containers.
-See [`test/linux.Dockerfile`](test/linux.Dockerfile) for more info.
-You can also hit [`test/linux_run.sh`](test/linux_run.sh) which creates and 
-runs the docker image for you.
-
-# Conan
-The library supports _Conan_ out of the box. The [`conan_demo/Dockerfile`](conan_demo/Dockerfile) 
-and [`conan_demo/run.sh`](conan_demo/run.sh) are for demonstration purposes.
-It creates a small command-line tool which can create QR symbols from a given text message.
-
-Please note: 
-The _Conan_ build is part of the CI checks. 
-The tool has to be compiled successfully in order to clear this stage.
+CI builds consist of a test build for _Windows_ and _Linux_. 
+If and only if all builds were successful, the CI state is green.
