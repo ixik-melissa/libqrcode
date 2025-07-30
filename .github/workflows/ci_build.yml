@@ -23,7 +23,7 @@ jobs:
         run: mkdir -p build/test && cd build/test && cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../ && ninja
 
       - name: Build demo
-        run: mkdir -p build/demo && cd build/demo && cmake -GNinja -DLIBQRCODE_INCLUDE=include/ ../../demo && ninja
+        run: mkdir -p build/demo && cd build/demo && cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=include/ ../../demo && ninja
 
   #ci_on_windows:
   #  runs-on: windows-latest
