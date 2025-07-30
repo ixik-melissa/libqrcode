@@ -37,6 +37,6 @@ if(NOT DEFINED LIBQRCODE_INCLUDE_DIR)
 endif()
 
 add_executable(demo demo.cpp)
-target_include_directories(demo PRIVATE ${LIBQRCODE_INCLUDE_DIR_DIR})
+target_include_directories(demo PRIVATE ${LIBQRCODE_INCLUDE_DIR})
 target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Linux>:-Wall -Wextra -Wpedantic>)
 target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Darwin>:-Wall -Wextra -Wpedantic>)
