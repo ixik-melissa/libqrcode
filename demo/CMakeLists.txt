@@ -32,11 +32,12 @@ project(libqrcode_demo)
 enable_testing()
 enable_cxx(20)
 
-set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-find_package(libqrcode REQUIRED)
+if not ${LIBQRCODE_INCLUDE}
+    message(FATAL_ERROR "Please specify location of libqrcode include folder")
+endif()
 
 add_executable(demo demo.cpp)
-target_include_directories(demo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+target_include_directories(demo PRIVATE ${LIBQRCODE_INCLUDE})
 target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Linux>:-Wall -Wextra -Wpedantic>)
 target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Darwin>:-Wall -Wextra -Wpedantic>)
 target_link_libraries(demo PRIVATE libqrcode::libqrcode)
