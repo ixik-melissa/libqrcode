@@ -25,6 +25,9 @@ jobs:
       - name: Build demo
         run: mkdir -p build/demo && cd build/demo && cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo && ninja
 
+      - name: Run demo
+        run: build/demo/demo "Hello World!"
+
   #ci_on_windows:
   #  runs-on: windows-latest
 #
