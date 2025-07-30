@@ -32,7 +32,7 @@ project(libqrcode_demo)
 enable_testing()
 enable_cxx(20)
 
-if(not ${LIBQRCODE_INCLUDE})
+if(not LIBQRCODE_INCLUDE)
     message(FATAL_ERROR "Please specify location of libqrcode include folder")
 endif()
 
