@@ -37,7 +37,9 @@ jobs:
           ninja
 
       - name: Run demo
-        run: build/demo/demo "Hello World!"
+        run: |
+          $GITHUB_WORKSPACE/build/demo/demo "Hello World!" >> result.svg
+          cmp demo/qrcode.svg result.svg
 
   Clang:
     runs-on: ubuntu-latest
@@ -66,7 +68,7 @@ jobs:
           ninja
 
       - name: Run demo
-        run: build/demo/demo "Hello World!"
+        run: $GITHUB_WORKSPACE/build/demo/demo "Hello World!"
 
   #ci_on_windows:
   #  runs-on: windows-latest
