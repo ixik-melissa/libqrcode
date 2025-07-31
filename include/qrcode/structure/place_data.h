@@ -57,7 +57,7 @@ namespace qrcode::structure
             *i = *d;
 
         assert(d == end(data));
-        std::fill(i, end(range), module_traits<T>::make_data(0));
+        std::ranges::fill(i, end(range), module_traits<T>::make_data(0));
     }
 }
 

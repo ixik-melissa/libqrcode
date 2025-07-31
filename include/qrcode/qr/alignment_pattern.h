@@ -262,7 +262,7 @@ namespace qrcode::qr::detail::test
     constexpr auto alignment_positions_returns_all_positions_of_center_modules_of_alignment_patterns()
     {
         static_assert(std::ranges::equal(alignment_positions(dimension{21,21}), std::array<position,0>{}));
-        static_assert(std::ranges::equal(alignment_positions(dimension{25,25}), std::array<position,1>{{18,18}}));
+        static_assert(std::ranges::equal(alignment_positions(dimension{25,25}), std::array{position{18,18}}));
         static_assert(std::ranges::equal(alignment_positions(
             dimension{45,45}), std::array<position,6>{{{22,6},{6,22},{22,22},{38,22},{22,38},{38,38}}}));   
     }
