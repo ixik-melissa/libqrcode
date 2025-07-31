@@ -166,8 +166,8 @@ target_sources(qrcode INTERFACE
 )
 
 target_include_directories(qrcode INTERFACE "include")
-target_link_libraries(qrcode INTERFACE $<$<PLATFORM_ID:Linux>:stdc++ m>)
-target_link_libraries(qrcode INTERFACE $<$<PLATFORM_ID:Darwin>:stdc++ m>)
+target_link_libraries(qrcode INTERFACE $<$<CXX_COMPILER_ID:Clang>:stdc++ m>)
+target_link_libraries(qrcode INTERFACE $<$<CXX_COMPILER_ID:AppleClang>:m>)
 
 if (QRCODE_TESTS_ENABLED)
     add_subdirectory(test)
