@@ -114,7 +114,7 @@ jobs:
         run: build/test/test/libqrcode_test
 
       - name: Build demo
-        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build\demo && cd build\demo && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo && ninja' }}
+        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build\demo && cd build\demo && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR=${GITHUB_WORKSPACE}/include/ ../../demo && ninja' }}
 
       - name: Run test
         shell: cmd 
