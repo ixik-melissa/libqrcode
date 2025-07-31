@@ -46,7 +46,7 @@ namespace cx
         }
 
         constexpr vector(std::size_t count, T value = T{}) noexcept
-        : current_size{count}
+        : current_size{static_cast<std::ptrdiff_t>(count)}
         , elements{}
         {
             for (auto i = begin(); i != begin()+count; ++i)
@@ -54,7 +54,7 @@ namespace cx
         }
         
         constexpr vector(std::initializer_list<T> values) noexcept
-        : current_size{std::ranges::size(values)}
+        : current_size{std::ranges::ssize(values)}
         , elements{}
         {
             using std::ranges::begin;
@@ -80,7 +80,7 @@ namespace cx
         using const_reverse_iterator = typename container::const_reverse_iterator;
         using value_type = T;
         
-        [[nodiscard]] constexpr auto size() const noexcept { return current_size; }
+        [[nodiscard]] constexpr auto size() const noexcept { return static_cast<std::size_t>(current_size); }
         [[nodiscard]] constexpr auto empty() const noexcept { return current_size == 0; }
 
         [[nodiscard]] constexpr auto begin() noexcept { using std::ranges::begin; return begin(elements); }
@@ -157,7 +157,7 @@ namespace cx
                 push_back(*i);
         }
 
-        std::size_t current_size;
+        std::ptrdiff_t current_size;
         container elements;
     };
 
