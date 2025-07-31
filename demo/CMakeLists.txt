@@ -30,7 +30,7 @@ endfunction()
 project(libqrcode_demo)
 
 enable_testing()
-enable_cxx(20)
+enable_cxx(23)
 
 if(NOT DEFINED LIBQRCODE_INCLUDE_DIR)
     message(FATAL_ERROR "Please specify location of libqrcode include folder")
