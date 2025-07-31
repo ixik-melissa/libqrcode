@@ -119,6 +119,6 @@ jobs:
       - name: Run test
         shell: cmd 
         run: |
-          build/demo/demo "Hello World!" >> result.svg
-          diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
+          . build/demo/demo "Hello World!" >> result.svg
+          Compare-Object (Get-Content demo/qrcode.svg) (Get-Content result.svg)
 
