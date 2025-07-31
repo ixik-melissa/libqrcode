@@ -38,7 +38,7 @@ jobs:
 
       - name: Run demo
         run: |
-          $build/demo/demo "Hello World!" >> result.svg
+          build/demo/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   Clang:
@@ -117,6 +117,7 @@ jobs:
         run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build && cd build && cmake -GNinja -DCMAKE_BUILD_TYPE=Release ../demo && ninja' }}
 
       - name: Run test
+        shell: cmd 
         run: |
           build/demo/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
