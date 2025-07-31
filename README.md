@@ -86,11 +86,10 @@ int main()
 # Requirements
 * C++ compiler and standard library
 * Supported:
-   * gcc10 and libstdc++-10-dev or higher
-   * msvc: Visual Studio 2019 16.10.0
-* Not supported: 
-  * clang doesn't seem to support all featured of C++20 needed to make this work
-  * macOS (due to lack of C++20 features), support will be added in the future
+   * gcc13 and libstdc++-13-dev
+   * clang15 and libstdc++-13-dev
+   * msvc: Visual Studio 2022 17.14.9
+   * macos: AppleClang 16.0.0
 
 # How to build
 * Since the library is header-only, building is actually not necessary.
