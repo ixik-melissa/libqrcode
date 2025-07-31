@@ -38,7 +38,7 @@ jobs:
 
       - name: Run demo
         run: |
-          $GITHUB_WORKSPACE/build/demo/demo "Hello World!" >> result.svg
+          $build/demo/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   Clang:
@@ -69,7 +69,7 @@ jobs:
 
       - name: Run demo
         run: |
-          $GITHUB_WORKSPACE/build/demo/demo "Hello World!" >> result.svg
+          build/demo/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   AppleClang:
@@ -97,7 +97,7 @@ jobs:
 
       - name: Run demo
         run: |
-          $GITHUB_WORKSPACE/build/demo/Release/demo "Hello World!" >> result.svg
+          build/demo/Release/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   MSVC:
