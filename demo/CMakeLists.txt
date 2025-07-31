@@ -32,7 +32,8 @@ project(libqrcode_demo)
 enable_testing()
 enable_cxx(23)
 
-if(NOT DEFINED LIBQRCODE_INCLUDE_DIR)
+set(LIBQRCODE_INCLUDE_DIR CACHE PATH "Path to libqrcode include directory")
+if(NOT LIBQRCODE_INCLUDE_DIR)
     message(FATAL_ERROR "Please specify location of libqrcode include folder")
 endif()
 
