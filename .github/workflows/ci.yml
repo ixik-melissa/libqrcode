@@ -119,6 +119,6 @@ jobs:
 
       - name: Run demo
         run: |
-          . build/demo/demo "Hello World!"
-          # Compare-Object (Get-Content demo/qrcode.svg) (Get-Content result.svg)
+          . build/demo/demo "Hello World!" >> result.svg
+          Compare-Object (Get-Content demo/qrcode.svg) (Get-Content result.svg)
 
