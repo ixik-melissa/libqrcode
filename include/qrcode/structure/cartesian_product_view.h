@@ -173,11 +173,10 @@ namespace qrcode::structure::test
             auto range = 
                 cartesian_product_view{std::array{1,2,3,4}, std::array{6,7,8}};
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{
-                {1,6},{2,6},{3,6},{4,6},
-                {1,7},{2,7},{3,7},{4,7},
-                {1,8},{2,8},{3,8},{4,8}
+            return std::ranges::equal(range, std::array{
+                position{1,6}, position{2,6}, position{3,6}, position{4,6},
+                position{1,7}, position{2,7}, position{3,7}, position{4,7},
+                position{1,8}, position{2,8}, position{3,8}, position{4,8}
             });
         };
         static_assert(f());
@@ -190,12 +189,14 @@ namespace qrcode::structure::test
             auto const range = 
                 cartesian_product_view{std::array{1,2,3,4}, std::array{6,7,8}};
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{
-                {1,6},{2,6},{3,6},{4,6},
-                {1,7},{2,7},{3,7},{4,7},
-                {1,8},{2,8},{3,8},{4,8}
-            });
+            return std::ranges::equal(
+                range, 
+                std::array{
+                    position{1,6}, position{2,6}, position{3,6}, position{4,6}, 
+                    position{1,7}, position{2,7}, position{3,7}, position{4,7}, 
+                    position{1,8}, position{2,8}, position{3,8}, position{4,8}
+                }
+             );
         };
         static_assert(f());
     }
@@ -207,8 +208,13 @@ namespace qrcode::structure::test
             auto const range = 
                 views::cartesian_product(std::array{1,2}, std::array{6,7,8});
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{{1,6},{2,6},{1,7},{2,7},{1,8},{2,8}});
+            return std::ranges::equal(
+                range, 
+                std::array{
+                    position{1,6}, position{2,6}, position{1,7}, 
+                    position{2,7},position{1,8},position{2,8}
+                }
+            );
         };
         static_assert(f());
     }
@@ -221,8 +227,10 @@ namespace qrcode::structure::test
                 views::cartesian_product(std::array{1,2}, std::array{6,7,8})
                 | std::views::filter([](auto point) { return point.y > 6; });
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{{1,7},{2,7},{1,8},{2,8}});
+            return std::ranges::equal(
+                range, 
+                std::array{position{1,7},position{2,7},position{1,8},position{2,8}}
+            );
         };
         static_assert(f());
     }
