@@ -1,5 +1,5 @@
 # Introduction
-libqrcode is C++20 header-only library for generating QR/Micro QR Codes.
+libqrcode is C++23 header-only library for generating QR/Micro QR Codes.
 
 Features include:
 * Header-only library
