@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p build/test 
           cd build/test
-          cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DQRCODE_TESTS_ENABLED:BOOL=True ../../
           ninja
 
       - name: Run test
@@ -33,7 +33,7 @@ jobs:
         run: | 
           mkdir -p build/demo
           cd build/demo 
-          cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
           ninja
 
       - name: Run demo
@@ -54,7 +54,7 @@ jobs:
         run: |
           mkdir -p build/test 
           cd build/test
-          cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DQRCODE_TESTS_ENABLED:BOOL=True ../../
           ninja
 
       - name: Run test
@@ -64,7 +64,7 @@ jobs:
         run: | 
           mkdir -p build/demo
           cd build/demo 
-          cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
           ninja
 
       - name: Run demo
@@ -78,29 +78,26 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      #- name: Install build infrastructure
-      #  run: sudo apt-get install -y build-essential cmake ninja-build clang-15 libstdc++-13-dev
-
       - name: Build test
         run: |
           mkdir -p build/test 
           cd build/test
           cmake -GXcode -DQRCODE_TESTS_ENABLED:BOOL=True ../../
-          xcodebuild -scheme ALL_BUILD build
+          xcodebuild -scheme ALL_BUILD -configuration Release build
 
       - name: Run test
-        run: build/test/test/libqrcode_test
+        run: build/test/test/Release/libqrcode_test
 
       - name: Build demo
         run: | 
           mkdir -p build/demo
           cd build/demo 
           cmake -GXcode -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
-          xcodebuild -scheme ALL_BUILD build
+          xcodebuild -scheme ALL_BUILD -configuration Release build
 
       - name: Run demo
         run: |
-          $GITHUB_WORKSPACE/build/demo/demo "Hello World!" >> result.svg
+          $GITHUB_WORKSPACE/build/demo/Release/demo "Hello World!" >> result.svg
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   #ci_on_windows:
