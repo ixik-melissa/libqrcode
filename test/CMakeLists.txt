@@ -30,10 +30,12 @@ target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:GNU>:
     -fconstexpr-depth=9999999 -fconstexpr-ops-limit=9999999999 -fconcepts-diagnostics-depth=10>)
 
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:Clang>:
-    -Wall -Wextra -Wpedantic -Werror -fconstexpr-steps=999999999>)
+    -Wall -Wextra -Wpedantic -Werror 
+    -fconstexpr-steps=999999999>)
 
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:AppleClang>:
-    -Wall -Wextra -Wpedantic -Werror -fconstexpr-steps=999999999>)
+    -Wall -Wextra -Wpedantic -Werror 
+    -fconstexpr-steps=999999999>)
     
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:MSVC>:
     /Wall /WX /constexpr:steps999999999>)
