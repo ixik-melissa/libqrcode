@@ -117,7 +117,6 @@ jobs:
         run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build\demo && cd build\demo && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR="%cd%/../../include" ../../demo && ninja' }}
 
       - name: Run test
-        shell: cmd 
         run: |
           . build/demo/demo "Hello World!" >> result.svg
           Compare-Object (Get-Content demo/qrcode.svg) (Get-Content result.svg)
