@@ -23,10 +23,6 @@
 # 
 cmake_minimum_required(VERSION 3.15)
 
-function(run_after_build target)
-    add_custom_command(TARGET ${target} POST_BUILD COMMAND ${target})
-endfunction()
-
 add_executable(libqrcode_test main.cpp)
 
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:GNU>:
@@ -40,7 +36,5 @@ target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:MSVC>:
 
 target_compile_options(libqrcode_test PRIVATE -DQRCODE_TESTS_ENABLED)
 target_link_libraries(libqrcode_test PRIVATE qrcode)
-
-run_after_build(libqrcode_test)
 
 add_test(NAME libqrcode_test COMMAND libqrcode_test)
