@@ -108,13 +108,13 @@ jobs:
 
       - name: Build test
         shell: cmd 
-        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build/test && cd build/test && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DQRCODE_TESTS_ENABLED:BOOL=True ../../ && ninja' }}
+        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build\test && cd build\test && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DQRCODE_TESTS_ENABLED:BOOL=True ../../ && ninja' }}
 
       - name: Run test
         run: build/test/test/libqrcode_test
 
       - name: Build demo
-        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build/demo && cd build/demo && cmake -GNinja -DCMAKE_BUILD_TYPE=Release ../../demo && ninja' }}
+        run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && mkdir build\demo && cd build\demo && cmake -GNinja -DCMAKE_BUILD_TYPE=Release ../../demo && ninja' }}
 
       - name: Run test
         shell: cmd 
