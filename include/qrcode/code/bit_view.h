@@ -99,7 +99,7 @@ namespace qrcode::code::detail
         template<class Iterator_, class Sentinel_>
         friend constexpr auto operator==(
             bit_view_iterator<Iterator_> const& iterator, 
-            bit_view_sentinel<Sentinel_> const& sentinel) noexcept;
+            bit_view_sentinel<Sentinel_> const& sentinel) noexcept -> bool;
 
     private:
         template<class Iterator>
@@ -115,7 +115,7 @@ namespace qrcode::code::detail
     template<class Iterator, class Sentinel>
     [[nodiscard]] constexpr auto operator==(
         bit_view_iterator<Iterator> const& iterator, 
-        bit_view_sentinel<Sentinel> const& sentinel) noexcept
+        bit_view_sentinel<Sentinel> const& sentinel) noexcept -> bool
     {
         return sentinel.equal(iterator);
     }

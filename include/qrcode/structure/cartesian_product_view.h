@@ -86,7 +86,7 @@ namespace qrcode::structure::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            cartesian_iterator const& iterator, std::default_sentinel_t) noexcept
+            cartesian_iterator const& iterator, std::default_sentinel_t) noexcept -> bool
         {
             using std::ranges::end;
             return iterator.i1 == end(*(iterator.range1));

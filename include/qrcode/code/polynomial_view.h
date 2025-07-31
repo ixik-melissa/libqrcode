@@ -110,7 +110,7 @@ namespace qrcode::code::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            polynomial_view_iterator const& a, polynomial_view_iterator const& b) noexcept
+            polynomial_view_iterator const& a, polynomial_view_iterator const& b) noexcept -> bool
         {
             return a.iterator == b.iterator
                 && a.polynomial_info == b.polynomial_info
@@ -118,7 +118,7 @@ namespace qrcode::code::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            polynomial_view_iterator const& iterator, std::default_sentinel_t) noexcept
+            polynomial_view_iterator const& iterator, std::default_sentinel_t) noexcept -> bool
         {
             return !iterator.current_value.has_value();
         }

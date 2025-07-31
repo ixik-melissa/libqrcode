@@ -80,7 +80,7 @@ namespace qrcode::code::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            padding_view_iterator const& a, padding_view_iterator const& b) noexcept
+            padding_view_iterator const& a, padding_view_iterator const& b) noexcept -> bool
         {
             return a.iterator == b.iterator
                 && a.padding == b.padding
@@ -88,7 +88,7 @@ namespace qrcode::code::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            padding_view_iterator const& iterator, std::default_sentinel_t const&) noexcept
+            padding_view_iterator const& iterator, std::default_sentinel_t const&) noexcept -> bool
         {
             return iterator.iterator == iterator.sentinel 
                 && !iterator.current_padding.has_value();
@@ -105,7 +105,7 @@ namespace qrcode::code::detail
     template<std::forward_iterator Iterator, class Sentinel, class Padding> 
     [[nodiscard]] constexpr auto operator!=(
         padding_view_iterator<Iterator, Sentinel, Padding> const& a,
-        padding_view_iterator<Iterator, Sentinel, Padding> const& b) noexcept
+        padding_view_iterator<Iterator, Sentinel, Padding> const& b) noexcept -> bool
     {
         return !(*a == b);
     }
@@ -113,7 +113,7 @@ namespace qrcode::code::detail
     template<std::forward_iterator Iterator, class Sentinel, class Padding> 
     [[nodiscard]] constexpr auto operator!=(
         padding_view_iterator<Iterator, Sentinel, Padding> const& iterator,
-        std::default_sentinel_t const& sentinel) noexcept
+        std::default_sentinel_t const& sentinel) noexcept -> bool
     {
         return !(*iterator == sentinel);
     }
