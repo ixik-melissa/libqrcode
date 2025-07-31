@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ci_on_linux:
+  GCC:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +20,50 @@ jobs:
         run: sudo apt-get install -y build-essential cmake ninja-build gcc-13 g++-13 libstdc++-13-dev
 
       - name: Build test
-        run: mkdir -p build/test && cd build/test && cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../ && ninja
+        run: |
+          mkdir -p build/test 
+          cd build/test
+          cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../
+          ninja
+
+      - name: Run test
+        run: build/test/libqrcode_test "Hello World!"
 
       - name: Build demo
-        run: mkdir -p build/demo && cd build/demo && cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo && ninja
+        run: | 
+          mkdir -p build/demo
+          cd build/demo 
+          cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
+          ninja
+
+      - name: Run demo
+        run: build/demo/demo "Hello World!"
+
+  Clang:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install build infrastructure
+        run: sudo apt-get install -y build-essential cmake ninja-build clang-15 libstdc++-13-dev
+
+      - name: Build test
+        run: |
+          mkdir -p build/test 
+          cd build/test
+          cmake -GNinja -DQRCODE_TESTS_ENABLED:BOOL=True ../../
+          ninja
+
+      - name: Run test
+        run: build/test/libqrcode_test "Hello World!"
+
+      - name: Build demo
+        run: | 
+          mkdir -p build/demo
+          cd build/demo 
+          cmake -GNinja -DLIBQRCODE_INCLUDE_DIR=$GITHUB_WORKSPACE/include/ ../../demo 
+          ninja
 
       - name: Run demo
         run: build/demo/demo "Hello World!"
