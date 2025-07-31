@@ -38,7 +38,8 @@ target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:AppleClang>:
     -fconstexpr-steps=999999999>)
     
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:MSVC>:
-    /Wall /WX /constexpr:steps999999999>)
+    /Wall /WX /wd5246 
+    /constexpr:steps999999999>)
 
 target_compile_options(libqrcode_test PRIVATE -DQRCODE_TESTS_ENABLED)
 target_link_libraries(libqrcode_test PRIVATE qrcode)
