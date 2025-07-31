@@ -26,6 +26,7 @@
 #include <array>
 #include <exception>
 #include <algorithm>
+#include <ranges>
 
 namespace cx
 {
