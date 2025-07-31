@@ -413,7 +413,7 @@ namespace cx::test
             v.erase(begin(v), begin(v)+1);
 
             auto i = begin(v);
-            for (auto& n : {only_move_assignable{1}, only_move_assignable{4}})
+            for (auto& n : std::array{only_move_assignable{1}, only_move_assignable{4}})
                 if (!(*(i++) == n))
                     return false;
 

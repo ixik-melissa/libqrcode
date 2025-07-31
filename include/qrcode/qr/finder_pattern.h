@@ -74,11 +74,14 @@ namespace qrcode::qr
         }
     };
 
-    using std::size;
+    [[nodiscard]] constexpr auto size(finder_pattern const& pattern) noexcept
+    {
+        return pattern.size();
+    }
 
     [[nodiscard]] constexpr auto finder_locations(dimension symbol_size) noexcept
     {
-        constexpr auto pattern = size(finder_pattern{});
+        auto const pattern = size(finder_pattern{});
         auto const left = width(symbol_size) - width(pattern);
         auto const bottom = height(symbol_size) - height(pattern);
         return std::array<position,3>{{{0,0}, {left,0}, {0, bottom}}};

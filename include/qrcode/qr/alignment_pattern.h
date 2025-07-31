@@ -128,6 +128,11 @@ namespace qrcode::qr::detail
             std::ranges::copy(bits, begin(range));
         }
     };
+
+    [[nodiscard]] constexpr auto size(alignment_pattern const& pattern) noexcept
+    {
+        return pattern.size();
+    }
 }
 
 namespace qrcode::qr
