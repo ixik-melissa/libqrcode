@@ -120,7 +120,7 @@ jobs:
             && mkdir build\demo 
             && cd build\demo 
             && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR={0} ../../demo 
-            && ninja', ${GITHUB_WORKSPACE}/include/) 
+            && ninja', foo) 
           }}
 
       - name: Run test
