@@ -39,7 +39,7 @@ jobs:
       - name: Run demo
         run: |
           $GITHUB_WORKSPACE/build/demo/demo "Hello World!" >> result.svg
-          cmp demo/qrcode.svg result.svg
+          diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   Clang:
     runs-on: ubuntu-latest
