@@ -27,7 +27,7 @@ jobs:
           ninja
 
       - name: Run test
-        run: build/test/libqrcode_test "Hello World!"
+        run: build/test/test/libqrcode_test
 
       - name: Build demo
         run: | 
@@ -58,7 +58,7 @@ jobs:
           ninja
 
       - name: Run test
-        run: build/test/libqrcode_test "Hello World!"
+        run: build/test/test/libqrcode_test
 
       - name: Build demo
         run: | 
