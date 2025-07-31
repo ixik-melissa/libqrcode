@@ -116,11 +116,11 @@ jobs:
       - name: Build demo
         run: >-
           ${{ format('
-            {{"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" 
+            "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" 
             && mkdir build\demo 
             && cd build\demo 
             && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DLIBQRCODE_INCLUDE_DIR={0} ../../demo 
-            && ninja}}', "$GITHUB_WORKSPACE/include/") 
+            && ninja') 
           }}
 
       - name: Run test
