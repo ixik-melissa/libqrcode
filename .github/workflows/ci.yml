@@ -11,7 +11,7 @@ on:
 
 jobs:
   GCC:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -42,7 +42,7 @@ jobs:
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   Clang:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -73,7 +73,7 @@ jobs:
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   AppleClang:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -104,7 +104,7 @@ jobs:
           diff -u --ignore-space-change --strip-trailing-cr --ignore-blank-lines demo/qrcode.svg result.svg
 
   #ci_on_windows:
-  #  runs-on: windows-latest
+  #  runs-on: windows-2022
 #
   #  steps:
   #    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
