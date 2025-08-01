@@ -1,0 +1,29 @@
+{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "apple-clang-with-tests",
+      "displayName": "AppleClang - With Tests",
+      "description": "macos build",
+      "generator": "Xcode",
+      "binaryDir": "${sourceDir}/build/with-tests",
+      "cacheVariables": {
+        "QRCODE_TESTS_ENABLED": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-apple-clang-with-tests",
+      "configurePreset": "apple-clang-with-tests"
+    }
+  ]
+}
