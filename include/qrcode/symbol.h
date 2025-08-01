@@ -156,11 +156,14 @@ namespace qrcode::test
 
     constexpr auto symbols_can_be_constructed_with_given_module_matrix()
     {
-        constexpr auto any_matrix = matrix<char>{{4,6}};
-        constexpr auto any_designator = designator_stub{1, 2};
-        constexpr auto any_mask_pattern = 7;
-        
-        static_assert(modules(symbol{any_designator, any_mask_pattern, any_matrix}) == any_matrix);
+        static_assert([]()
+        {
+            auto const any_matrix = matrix<char>{{4,6}};
+            constexpr auto any_designator = designator_stub{1, 2};
+            constexpr auto any_mask_pattern = 7;
+
+            return modules(symbol{any_designator, any_mask_pattern, any_matrix}) == any_matrix;
+        }());
     }
 
     constexpr auto symbols_have_a_designator()

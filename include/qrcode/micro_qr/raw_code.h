@@ -67,31 +67,34 @@ namespace qrcode::micro_qr::test
 {
     constexpr auto micro_qr_code_can_be_generated_from_given_version_and_error_level()
     {
-        constexpr auto any_content = std::array<bool, 80>{{ 
-            0,1,0,0,0,0,0,0, 0,0,0,1,1,0,0,0, 1,0,1,0,1,1,0,0, 1,1,0,0,0,0,1,1, 0,0,0,0,0,0,0,0, 
-            1,0,0,0,0,1,1,0, 0,0,0,0,1,1,0,1, 0,0,1,0,0,0,1,0, 1,0,1,0,1,1,1,0, 0,0,1,1,0,0,0,0
-        }}; // 01234567 (level L)
-        constexpr auto any_version = symbol_version::M2;
+        static_assert([]()
+        {
+            constexpr auto any_content = std::array<bool, 80>{{ 
+                0,1,0,0,0,0,0,0, 0,0,0,1,1,0,0,0, 1,0,1,0,1,1,0,0, 1,1,0,0,0,0,1,1, 0,0,0,0,0,0,0,0, 
+                1,0,0,0,0,1,1,0, 0,0,0,0,1,1,0,1, 0,0,1,0,0,0,1,0, 1,0,1,0,1,1,1,0, 0,0,1,1,0,0,0,0
+            }}; // 01234567 (level L)
+            constexpr auto any_version = symbol_version::M2;
 
-        constexpr auto symbol = make_raw_code<char>(any_version, any_content);
+            auto const symbol = make_raw_code<char>(any_version, any_content);
 
-        using qrcode::structure::make_matrix;
-        using namespace std::literals;
-        static_assert(symbol == make_matrix<char>({13,13},
-            "*******-*-*-*"
-            "*-----*--++,,"
-            "*-***-*--,,++"
-            "*-***-*--,,,+"
-            "*-***-*--++,+"
-            "*-----*--,,,,"
-            "*******--,,,+"
-            "---------,,+,"
-            "*--------,,,,"
-            "-,,,+,,+,,+,,"
-            "*++++,+++,,,,"
-            "-,,,+,,,,+,,,"
-            "*,,,+,+,,,++,"sv
-        ));
+            using qrcode::structure::make_matrix;
+            using namespace std::literals;
+            return symbol == make_matrix<char>({13,13},
+                "*******-*-*-*"
+                "*-----*--++,,"
+                "*-***-*--,,++"
+                "*-***-*--,,,+"
+                "*-***-*--++,+"
+                "*-----*--,,,,"
+                "*******--,,,+"
+                "---------,,+,"
+                "*--------,,,,"
+                "-,,,+,,+,,+,,"
+                "*++++,+++,,,,"
+                "-,,,+,,,,+,,,"
+                "*,,,+,+,,,++,"sv
+            );
+        }());
     }
 }
 #endif

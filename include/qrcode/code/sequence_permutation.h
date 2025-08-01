@@ -148,42 +148,48 @@ namespace qrcode::code::detail::test
 namespace qrcode::code
 {
     constexpr auto data_codeword_permutation_returns_an_array_representing_the_lookup_table_where_to_place_data_codewords_in_the_sequence()
-    {                                                        
-        constexpr auto any_sequence = sequence_description{{2,1}, {3,2}, 6};
+    {
+        static_assert([]()
+        {
+            constexpr auto any_sequence = sequence_description{{2,1}, {3,2}, 6};
 
-        constexpr auto permutation = data_codeword_permutation(any_sequence);
-        
-        static_assert(permutation(0) == 0);              // 0 1                      
-        static_assert(permutation(1) == 3);              // 2 3 4 
-        static_assert(permutation(2) == 1);              // 5 6 7  
-        static_assert(permutation(3) == 4);              // => 0 2 5 1 3 6 4 7
-        static_assert(permutation(4) == 6);              // => 0 3 1 4 6 2 5 7
-        static_assert(permutation(5) == 2);
-        static_assert(permutation(6) == 5);
-        static_assert(permutation(7) == 7);
+            auto const permutation = data_codeword_permutation(any_sequence);
+            
+            return permutation(0) == 0              // 0 1                      
+                && permutation(1) == 3              // 2 3 4 
+                && permutation(2) == 1              // 5 6 7  
+                && permutation(3) == 4              // => 0 2 5 1 3 6 4 7
+                && permutation(4) == 6              // => 0 3 1 4 6 2 5 7
+                && permutation(5) == 2
+                && permutation(6) == 5
+                && permutation(7) == 7;
+        }());
     }
 
     constexpr auto error_codeword_permutation_returns_an_array_represening_the_lookup_table_where_to_place_error_codewords_in_the_sequence()
-    {                                                        
-        constexpr auto any_sequence = sequence_description{{13,4},{14,1},3};
+    {          
+        static_assert([]()
+        {
+            constexpr auto any_sequence = sequence_description{{13,4},{14,1},3};
 
-        constexpr auto permutation = error_codeword_permutation(any_sequence);
-        
-        static_assert(permutation(0) == 0);               //  0  1  2                     
-        static_assert(permutation(1) == 5);               //  3  4  5
-        static_assert(permutation(2) == 10);              //  6  7  8
-        static_assert(permutation(3) == 1);               //  9 10 11
-        static_assert(permutation(4) == 6);               // 12 13 14
-        static_assert(permutation(5) == 11);              // => 0 3 6 9 12 1 4 7 10 13 2 5 8 11 14
-        static_assert(permutation(6) == 2);               // => 0 5 10 1 6 11 2 7 12 3 8 13 4 9 14
-        static_assert(permutation(7) == 7);
-        static_assert(permutation(8) == 12);
-        static_assert(permutation(9) == 3);
-        static_assert(permutation(10) == 8);
-        static_assert(permutation(11) == 13);
-        static_assert(permutation(12) == 4);
-        static_assert(permutation(13) == 9);
-        static_assert(permutation(14) == 14);
+            auto const permutation = error_codeword_permutation(any_sequence);
+            
+            return permutation(0) == 0               //  0  1  2                     
+                && permutation(1) == 5               //  3  4  5
+                && permutation(2) == 10              //  6  7  8
+                && permutation(3) == 1               //  9 10 11
+                && permutation(4) == 6               // 12 13 14
+                && permutation(5) == 11              // => 0 3 6 9 12 1 4 7 10 13 2 5 8 11 14
+                && permutation(6) == 2               // => 0 5 10 1 6 11 2 7 12 3 8 13 4 9 14
+                && permutation(7) == 7
+                && permutation(8) == 12
+                && permutation(9) == 3
+                && permutation(10) == 8
+                && permutation(11) == 13
+                && permutation(12) == 4
+                && permutation(13) == 9
+                && permutation(14) == 14;
+        }());                                              
     }
 }
 #endif

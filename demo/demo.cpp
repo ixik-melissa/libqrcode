@@ -218,7 +218,7 @@ int main(int argc, char** argv)
     if (empty(options->message))
     {
         std_input = read_message(std::cin);
-        message = std::string_view{cx::begin(std_input), cx::end(std_input)};
+        message = std::string_view{begin(std_input), end(std_input)};
     }
     print_message(std::cerr, message);
 

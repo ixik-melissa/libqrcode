@@ -49,43 +49,46 @@ namespace qrcode::qr::test
 {
     constexpr auto penalty_scores_consist_of_adjacent_score_and_same_color_score_and_finder_like_score_and_dark_module_score()
     {
-        using qrcode::structure::make_matrix;
-        using namespace std::literals;
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            using namespace std::literals;
 
-        constexpr auto any_matrix = make_matrix<char>({21,21},
-            "*******.**....*******"   
-            "*.....*.*..*..*.....*"   
-            "*.***.*.*..**.*.***.*"   
-            "*.***.*.*.....*.***.*"   
-            "*.***.*.*.*...*.***.*"   
-            "*.....*...*...*.....*"   
-            "*******.*.*.*.*******"   
-            "........*............"   
-            ".**.*.**....*.*.*****"   
-            ".*......****....*...*"   
-            "..**.***.**...*.**..."   
-            ".**.**.*..**.*.*.***."   
-            "*...*.*.*.***.***.*.*"   
-            "........**.*..*...*.*"   
-            "*******.*.*....*.**.."   
-            "*.....*..*.**.**.*..."   
-            "*.***.*.*.*...*******"   
-            "*.***.*..*.*.*.*...*."   
-            "*.***.*.*...****.*..*"   
-            "*.....*.*.**.*...*.**"   
-            "*******.....****....*"sv
-        );
+            auto const any_matrix = make_matrix<char>({21,21},
+                "*******.**....*******"   
+                "*.....*.*..*..*.....*"   
+                "*.***.*.*..**.*.***.*"   
+                "*.***.*.*.....*.***.*"   
+                "*.***.*.*.*...*.***.*"   
+                "*.....*...*...*.....*"   
+                "*******.*.*.*.*******"   
+                "........*............"   
+                ".**.*.**....*.*.*****"   
+                ".*......****....*...*"   
+                "..**.***.**...*.**..."   
+                ".**.**.*..**.*.*.***."   
+                "*...*.*.*.***.***.*.*"   
+                "........**.*..*...*.*"   
+                "*******.*.*....*.**.."   
+                "*.....*..*.**.**.*..."   
+                "*.***.*.*.*...*******"   
+                "*.***.*..*.*.*.*...*."   
+                "*.***.*.*...****.*..*"   
+                "*.....*.*.**.*...*.**"   
+                "*******.....****....*"sv
+            );
 
-        constexpr auto s1 = adjacent_score(any_matrix);
-        constexpr auto s2 = same_color_score(any_matrix);
-        constexpr auto s3 = finder_like_score(any_matrix);
-        constexpr auto s4 = dark_module_score(any_matrix);
+            auto const s1 = adjacent_score(any_matrix);
+            auto const s2 = same_color_score(any_matrix);
+            auto const s3 = finder_like_score(any_matrix);
+            auto const s4 = dark_module_score(any_matrix);
 
-        static_assert(s1 == 180);
-        static_assert(s2 == 90);
-        static_assert(s3 == 80);
-        static_assert(s4 == 0);
-        static_assert(penalty_score(any_matrix) == (s1+s2+s3+s4));
+            return s1 == 180
+                && s2 == 90
+                && s3 == 80
+                && s4 == 0
+                && penalty_score(any_matrix) == (s1+s2+s3+s4);
+        }());
     }
 }
 #endif

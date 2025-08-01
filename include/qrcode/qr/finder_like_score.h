@@ -138,34 +138,41 @@ namespace qrcode::qr::detail::test
 
     constexpr auto horizontal_finder_like_score_searches_horizontally_for_finder_pattern_in_given_matrix_and_returns_penalties_if_pattern_has_been_found()
     {
-        using qrcode::structure::make_matrix;
-        constexpr auto some_modules = make_matrix<int>({11,3}, std::array{
-            1,0,1,1,1,0,1,0,0,0,0,
-            1,0,0,0,0,0,1,0,0,0,1,
-            0,0,0,0,1,0,1,1,1,0,1,
-        });
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            auto const some_modules = make_matrix<int>({11,3}, std::array{
+                1,0,1,1,1,0,1,0,0,0,0,
+                1,0,0,0,0,0,1,0,0,0,1,
+                0,0,0,0,1,0,1,1,1,0,1,
+            });
 
-        static_assert(horizontal_finder_like_score(some_modules) == (2 * penalty_weight(3)));
+            return horizontal_finder_like_score(some_modules) == (2 * penalty_weight(3));
+        }());
     }
 
     constexpr auto vertical_finder_like_score_searches_vertically_for_finder_pattern_in_given_matrix_and_returns_penalties_if_pattern_has_been_found()
     {
-        using qrcode::structure::make_matrix;
-        constexpr auto some_modules = make_matrix<int>({3,11}, std::array{
-            1,1,0,
-            0,0,0,
-            1,0,0,
-            1,0,0,
-            1,0,1,
-            0,0,0,
-            1,1,1,
-            0,0,1,
-            0,0,1,
-            0,0,0,
-            0,1,1
-        });
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            auto const some_modules = make_matrix<int>({3,11}, std::array{
+                1,1,0,
+                0,0,0,
+                1,0,0,
+                1,0,0,
+                1,0,1,
+                0,0,0,
+                1,1,1,
+                0,0,1,
+                0,0,1,
+                0,0,0,
+                0,1,1
+            });
 
-        static_assert(vertical_finder_like_score(some_modules) == (2 * penalty_weight(3)));
+            return vertical_finder_like_score(some_modules) == (2 * penalty_weight(3));
+        }());
+
     }
 }
 
@@ -173,22 +180,25 @@ namespace qrcode::qr::test
 {
     constexpr auto finder_like_score_searches_for_finder_pattern_in_given_matrix_and_returns_penalties_if_pattern_has_been_found()
     {
-        using qrcode::structure::make_matrix;
-        constexpr auto some_modules = make_matrix<int>({11,11}, std::array{
-            1,1,1,1,1,1,1,0,0,0,1,
-            1,0,0,0,0,0,1,0,0,0,0,
-            1,0,1,1,1,0,1,0,0,0,0,
-            1,0,1,1,1,0,1,0,0,0,1,
-            1,0,1,1,1,0,1,0,1,0,1,
-            1,0,0,0,0,0,1,0,0,0,1,
-            1,1,1,1,1,1,1,0,1,0,1,
-            0,0,0,0,0,0,0,0,1,0,1,
-            1,1,0,0,1,1,1,0,1,0,1,
-            1,0,0,0,0,0,1,0,0,1,1,
-            0,0,0,1,1,0,1,0,1,0,0
-        });
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            auto const some_modules = make_matrix<int>({11,11}, std::array{
+                1,1,1,1,1,1,1,0,0,0,1,
+                1,0,0,0,0,0,1,0,0,0,0,
+                1,0,1,1,1,0,1,0,0,0,0,
+                1,0,1,1,1,0,1,0,0,0,1,
+                1,0,1,1,1,0,1,0,1,0,1,
+                1,0,0,0,0,0,1,0,0,0,1,
+                1,1,1,1,1,1,1,0,1,0,1,
+                0,0,0,0,0,0,0,0,1,0,1,
+                1,1,0,0,1,1,1,0,1,0,1,
+                1,0,0,0,0,0,1,0,0,1,1,
+                0,0,0,1,1,0,1,0,1,0,0
+            });
 
-        static_assert(finder_like_score(some_modules) == (3 * penalty_weight(3)));
+            return finder_like_score(some_modules) == (3 * penalty_weight(3));
+        }());
     }
 }
 #endif

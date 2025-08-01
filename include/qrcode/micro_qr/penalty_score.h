@@ -127,43 +127,50 @@ namespace qrcode::micro_qr::detail::test
 
     constexpr auto horizontal_score_counts_the_number_of_non_zeros_along_the_lower_side_edge()
     {
-        using namespace std::literals;
-        using qrcode::structure::make_matrix;
-        constexpr auto any_matrix = make_matrix<char>({11,11},
-            "..........."
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "..........."  
-            "++,,+,+,++,"sv
-        //   11001010110
-        );
-        static_assert(horizontal_score(any_matrix) == (/*1+*/1+0+0+1+0+1+0+1+1+0));
+        static_assert([]()
+        {
+            using namespace std::literals;
+            using qrcode::structure::make_matrix;
+            const auto any_matrix = make_matrix<char>({11,11},
+                "..........."
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "..........."  
+                "++,,+,+,++,"sv
+            //   11001010110
+            );
+            return horizontal_score(any_matrix) == (/*1+*/1+0+0+1+0+1+0+1+1+0);
+        }());
     }
 
     constexpr auto vertical_score_counts_the_number_of_non_zeros_along_the_right_side_edge()
     {
-        using namespace std::literals;
-        using qrcode::structure::make_matrix;
-        constexpr auto any_matrix = make_matrix<char>({11,11},
-            "..........+"   // 1
-            "..........+"   // 1
-            "..........,"   // 0
-            "..........,"   // 0
-            "..........+"   // 1
-            "..........,"   // 0
-            "..........,"   // 0
-            "..........+"   // 1
-            "..........+"   // 1
-            "..........,"   // 0
-            "..........+"sv // 1
-        );
-        static_assert(vertical_score(any_matrix) == (/*1+*/1+0+0+1+0+0+1+1+0+1));
+        static_assert([]()
+        {
+            using namespace std::literals;
+            using qrcode::structure::make_matrix;
+            auto const any_matrix = make_matrix<char>({11,11},
+                "..........+"   // 1
+                "..........+"   // 1
+                "..........,"   // 0
+                "..........,"   // 0
+                "..........+"   // 1
+                "..........,"   // 0
+                "..........,"   // 0
+                "..........+"   // 1
+                "..........+"   // 1
+                "..........,"   // 0
+                "..........+"sv // 1
+            );
+            return vertical_score(any_matrix) == (/*1+*/1+0+0+1+0+0+1+1+0+1);
+        }());
+        
     }
 
     constexpr auto negative_scores_are_infinite_by_default()
@@ -194,28 +201,31 @@ namespace qrcode::micro_qr::test
 {
     constexpr auto penalty_score_returns_the_high_score_of_given_matrix()
     {
-        using namespace std::literals;
-        using qrcode::structure::make_matrix;
-        constexpr auto any_matrix = make_matrix<char>({17,17},
-            "................+"   
-            "................+"   
-            "................+"   
-            "................,"   
-            "................,"   
-            "................+"   
-            "................+"   
-            "................,"   
-            "................+"   
-            "................,"   
-            "................+"
-            "................,"   
-            "................+"
-            "................,"
-            "................,"
-            "................+"
-            "+,,+++,,+,+,,+,,,"sv
-        );
-        static_assert(penalty_score(any_matrix).value == 104);
+        static_assert([]()
+        {
+            using namespace std::literals;
+            using qrcode::structure::make_matrix;
+            auto const any_matrix = make_matrix<char>({17,17},
+                "................+"   
+                "................+"   
+                "................+"   
+                "................,"   
+                "................,"   
+                "................+"   
+                "................+"   
+                "................,"   
+                "................+"   
+                "................,"   
+                "................+"
+                "................,"   
+                "................+"
+                "................,"
+                "................,"
+                "................+"
+                "+,,+++,,+,+,,+,,,"sv
+            );
+            return penalty_score(any_matrix).value == 104;
+        }());
     }
 }
 #endif

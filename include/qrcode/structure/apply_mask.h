@@ -86,21 +86,24 @@ namespace qrcode::structure::test
 {
     constexpr auto apply_mask_returns_a_callable_which_wraps_the_given_simple_boolean_mask_to_mask_any_given_matrix()
     {
-        using namespace std::literals;
-        constexpr auto any_mask = [](int i, int j) { return i == 1 && j == 0; };
-        constexpr auto any_matrix = make_matrix<char>({3,3}, 
-            ",,,"
-            ",,,"
-            ",,,"sv
-        );
+        static_assert([]()
+        {
+            using namespace std::literals;
+            constexpr auto any_mask = [](int i, int j) { return i == 1 && j == 0; };
+            auto const any_matrix = make_matrix<char>({3,3}, 
+                ",,,"
+                ",,,"
+                ",,,"sv
+            );
 
-        constexpr auto f = apply_mask_functor(any_mask);
+            constexpr auto f = apply_mask_functor(any_mask);
 
-        static_assert(f(any_matrix) == make_matrix<char>({3,3},
-            ",,,"
-            "+,,"
-            ",,,"sv
-        ));
+            return f(any_matrix) == make_matrix<char>({3,3},
+                ",,,"
+                "+,,"
+                ",,,"sv
+            );
+        }());
     }
 }
 #endif

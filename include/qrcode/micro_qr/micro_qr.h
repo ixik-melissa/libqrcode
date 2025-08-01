@@ -133,68 +133,74 @@ namespace qrcode::micro_qr
 {
     constexpr auto micro_qr_symbols_can_be_generated_from_given_version_and_error_level()
     {
-        using qrcode::structure::make_matrix;
-        using namespace std::literals;
-        constexpr auto any_data = "01234567"sv;
-        constexpr auto any_version = symbol_version::M2;
-        constexpr auto any_error_level = error_correction::level_L;
-        constexpr auto selected_mask_id = 1;
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            using namespace std::literals;
+            constexpr auto any_data = "01234567"sv;
+            constexpr auto any_version = symbol_version::M2;
+            constexpr auto any_error_level = error_correction::level_L;
+            constexpr auto selected_mask_id = 1;
 
-        constexpr auto s = make_symbol<char>(any_data, any_version, any_error_level).value();
+            auto const s = make_symbol<char>(any_data, any_version, any_error_level).value();
 
-        static_assert(s == symbol{
-            *make_designator(any_version, any_error_level),
-            selected_mask_id,
-            make_matrix<char>({13,13},
-                "*******-*-*-*"
-                "*-----*-*++,+"
-                "*-***-*--++,+"
-                "*-***-*--++++"
-                "*-***-*-*++,,"
-                "*-----*-*,,,+"
-                "*******--++++"
-                "---------++,,"
-                "**-*----*,,,+"
-                "-++,+,+,+,+,+"
-                "*++,,+++++++,"
-                "-,,+,+,,,,++,"
-                "*++,+,,++,+++"sv
-            )
-        });
+            return s == symbol{
+                *make_designator(any_version, any_error_level),
+                selected_mask_id,
+                make_matrix<char>({13,13},
+                    "*******-*-*-*"
+                    "*-----*-*++,+"
+                    "*-***-*--++,+"
+                    "*-***-*--++++"
+                    "*-***-*-*++,,"
+                    "*-----*-*,,,+"
+                    "*******--++++"
+                    "---------++,,"
+                    "**-*----*,,,+"
+                    "-++,+,+,+,+,+"
+                    "*++,,+++++++,"
+                    "-,,+,+,,,,++,"
+                    "*++,+,,++,+++"sv
+                )
+            };
+        }());
     }
 
     constexpr auto micro_qr_symbols_can_be_generated_from_given_version_and_error_level2()
     {
-        using qrcode::structure::make_matrix;
-        using namespace std::literals;
-        constexpr auto any_data = "Wikipedia"sv;
-        constexpr auto any_error_level = error_correction::level_L;
-        constexpr auto selected_version = symbol_version::M3;
-        constexpr auto selected_mask_id = 2;
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            using namespace std::literals;
+            constexpr auto any_data = "Wikipedia"sv;
+            constexpr auto any_error_level = error_correction::level_L;
+            constexpr auto selected_version = symbol_version::M3;
+            constexpr auto selected_mask_id = 2;
 
-        constexpr auto s = make_symbol<char>(any_data, any_error_level).value();
+            auto const s = make_symbol<char>(any_data, any_error_level).value();
 
-        static_assert(s == symbol{
-            *make_designator(selected_version, any_error_level),
-            selected_mask_id,
-            make_matrix<char>({15,15},
-                "*******-*-*-*-*"
-                "*-----*--,,+,+,"
-                "*-***-*-*++++++"
-                "*-***-*-*,+,,++"
-                "*-***-*--,,+,++"
-                "*-----*-*,+,+,+"
-                "*******--+,,++,"
-                "---------+,+,,+"
-                "******---,+,+,+"
-                "-,,+,,++,,,,+++"
-                "*++,++,++++,+++"
-                "-+,,,,+,,+++,+,"
-                "*,+++++,+++,+,+"
-                "-+,,,,+,,+,+++,"
-                "*++,++,+,+,++++"sv
-            )
-        });
+            return s == symbol{
+                *make_designator(selected_version, any_error_level),
+                selected_mask_id,
+                make_matrix<char>({15,15},
+                    "*******-*-*-*-*"
+                    "*-----*--,,+,+,"
+                    "*-***-*-*++++++"
+                    "*-***-*-*,+,,++"
+                    "*-***-*--,,+,++"
+                    "*-----*-*,+,+,+"
+                    "*******--+,,++,"
+                    "---------+,+,,+"
+                    "******---,+,+,+"
+                    "-,,+,,++,,,,+++"
+                    "*++,++,++++,+++"
+                    "-+,,,,+,,+++,+,"
+                    "*,+++++,+++,+,+"
+                    "-+,,,,+,,+,+++,"
+                    "*++,++,+,+,++++"sv
+                )
+            };
+        }());
     }
 }
 #endif
