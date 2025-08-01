@@ -165,7 +165,8 @@ namespace cx
     // msvc or the C++ standard library respectively seems to have problems in constexpr sitations, 
     // use old implementation in constexpr instead
 #ifdef _MSC_VER 
-    using vector = std::conditional_t<std::is_constant_evaluated(), cx::detail::vector, std::vector>;
+    template<class T>
+    using vector = std::conditional_t<std::is_constant_evaluated(), cx::detail::vector<T>, std::vector<T>>;
 #else
     template<class T>
     using vector = std::vector<T>;
