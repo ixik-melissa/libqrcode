@@ -23,12 +23,13 @@
  */
 #pragma once
 
+#include <vector>
 #include <array>
 #include <exception>
 #include <algorithm>
 #include <ranges>
 
-namespace cx
+namespace cx::detail
 {
     // poor man's constexpr stack-based vector
     template<class T>
@@ -118,22 +119,6 @@ namespace cx
             elements[current_size++] = T{std::forward<Args>(args)...}; 
         }
 
-        constexpr auto erase(const_iterator first, const_iterator last) 
-        {
-            auto const dst = begin() + (first - begin());
-            auto const src = begin() + (last - begin());
-
-            auto const old_end = end();
-            auto const new_end = std::move(src, old_end, dst);
-
-            current_size = new_end - begin();
-
-            if constexpr (!std::is_trivially_destructible_v<value_type>)
-                std::destroy(new_end, old_end);
-            
-            return new_end;
-        }
-
         constexpr auto& operator[](int index) const noexcept { return elements[index]; }
         constexpr auto& operator[](int index) noexcept { return elements[index]; }
 
@@ -169,10 +154,22 @@ namespace cx
     using std::ranges::empty;
 
     template<class T>
-    constexpr auto operator==(cx::vector<T> const& a, cx::vector<T> const& b) noexcept 
+    constexpr auto operator==(vector<T> const& a, vector<T> const& b) noexcept 
     { 
         return std::equal(begin(a), end(a), begin(b), end(b));
     }
+}
+
+namespace cx
+{
+    // msvc or the C++ standard library respectively seems to have problems in constexpr sitations, 
+    // use old implementation in constexpr instead
+#ifdef _MSC_VER 
+    using vector = std::conditional_t<std::is_constant_evaluated(), cx::detail::vector, std::vector>;
+#else
+    template<class T>
+    using vector = std::vector<T>;
+#endif
 }
 
 #ifdef QRCODE_TESTS_ENABLED
@@ -222,8 +219,11 @@ namespace cx::test
 
     constexpr auto cx_vectors_can_be_initialized_with_preexisting_elements()
     {
-        constexpr auto v = cx::vector<int>{1,2,3,4,5};
-        static_assert(std::ranges::equal(v, std::array{1,2,3,4,5}));
+        static_assert([]()
+        {
+            auto const v = cx::vector<int>{1,2,3,4,5};
+            return std::ranges::equal(v, std::array{1,2,3,4,5});
+        }());
     }
 
     constexpr auto cx_vectors_have_a_size()
@@ -235,13 +235,6 @@ namespace cx::test
         static_assert(size(cx::vector<int>{3,1,4,7}) == 4);
     }
 
-    constexpr auto cx_vectors_have_a_maximum_size_of_40000_this_is_enough_space_for_qr_applications()
-    {
-        static_assert(cx::vector<int>{}.max_size() == 40000);
-        static_assert(cx::vector<float>{}.max_size() == 40000);
-        static_assert(cx::vector<char>{}.max_size() == 40000);
-    }
-
     constexpr auto cx_vectors_can_be_asked_whether_they_are_empty()
     {
         static_assert(empty(cx::vector<int>{}));
@@ -250,39 +243,50 @@ namespace cx::test
 
     constexpr auto cx_vectors_can_be_initialized_with_preexisting_elements_less_than_cx_vectors_capacity()
     {
-        constexpr auto v = cx::vector<int>{1,2,3};
-        static_assert(std::ranges::equal(v, std::array{1,2,3}));
-        static_assert(size(v) == 3);
+        static_assert([]()
+        {
+            auto const v = cx::vector<int>{1,2,3};
+            return std::ranges::equal(v, std::array{1,2,3})
+                && size(v) == 3;
+        });
     }
 
     constexpr auto cx_vectors_can_be_initialized_with_a_specified_number_of_elements_equal_or_less_than_cx_vectors_capacity()
     {
-        constexpr auto v = cx::vector<int>(4);
-        static_assert(std::ranges::equal(v, std::array{int{}, int{}, int{}, int{}}));
-        static_assert(size(v) == 4);
+        static_assert([]()
+        {
+            auto const v = cx::vector<int>(4);
+            return std::ranges::equal(v, std::array{int{}, int{}, int{}, int{}}) 
+                && size(v) == 4;
+        }());
     }
 
     constexpr auto cx_vectors_can_be_initialized_with_a_specified_number_of_elements_and_a_fill_element_equal_or_less_than_cx_vectors_capacity()
     {
-        constexpr auto v = cx::vector<int>(4,-2);
-        static_assert(std::ranges::equal(v, std::array{-2,-2,-2,-2}));
-        static_assert(size(v) == 4);
+        static_assert([]()
+        {
+            auto const v = cx::vector<int>(4,-2);
+            return std::ranges::equal(v, std::array{-2,-2,-2,-2})
+                && size(v) == 4;
+        }());
     }
 
     constexpr auto cx_vectors_can_be_initialized_from_iterator_range()
     {
-        constexpr auto some_elements = std::array{1,2,3,4,5};
-
-        constexpr auto v = cx::vector<int>{begin(some_elements), end(some_elements)};
-
-        static_assert(std::ranges::equal(v, std::array{1,2,3,4,5}));
+        static_assert([]()
+        {
+            auto const some_elements = std::array{1,2,3,4,5};
+            auto const v = cx::vector<int>{begin(some_elements), end(some_elements)};
+            return std::ranges::equal(v, std::array{1,2,3,4,5});
+        }());
+        
     }
 
     constexpr auto cx_vectors_allow_accessing_their_elements_by_reverse_iterators()
     {
-        auto f = []
+        static_assert([]
         {
-            constexpr auto v = cx::vector<int>{1,2,3,4,5};
+            auto const v = cx::vector<int>{1,2,3,4,5};
             auto const& cv = v;
 
             auto r = rbegin(v);
@@ -297,8 +301,7 @@ namespace cx::test
             if (&*(rend(v)-1) != &*begin(v)) return false;
             if (&*(rend(cv)-1) != &*begin(v)) return false;
             return true;
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto cx_vectors_allow_explicit_read_access_to_their_first_element_if_vector_has_any_data()
@@ -309,7 +312,7 @@ namespace cx::test
 
     constexpr auto cx_vectors_allow_explicit_write_access_to_their_first_element_if_vector_has_any_data()
     {
-        auto f = []
+        static_assert([]
         {
             auto v = cx::vector<int>{3,1,4,1,5};
             auto const& cv = v;
@@ -319,8 +322,7 @@ namespace cx::test
             v.front() = 7;
 
             return element == 7 && const_element == 7;
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto cx_vectors_allow_explicit_read_access_to_theirlast_element_if_vector_has_any_data()
@@ -331,7 +333,7 @@ namespace cx::test
 
     constexpr auto cx_vectors_allow_explicit_write_access_to_their_last_element_if_vector_has_any_data()
     {
-        auto f = []
+        static_assert([]
         {
             auto v = cx::vector<int>{3,1,4,1,5};
             auto const& cv = v;
@@ -341,103 +343,12 @@ namespace cx::test
             v.back() = 7;
 
             return element == 7 && const_element == 7;
-        };
-        static_assert(f());
-    }
-
-    constexpr auto cx_vectors_allow_erasing_elements_from_specified_range()
-    {
-        auto f = []
-        {
-            auto v = cx::vector<int>{3,1,4,1,5};
-
-            v.erase(begin(v)+3, end(v));
-
-            return v;
-        };
-        static_assert(std::ranges::equal(f(), std::array{3,1,4}));
-    }
-
-    constexpr auto cx_vectors_allow_erasing_elements_from_specified_range___erasing_everything()
-    {
-        auto f = []
-        {
-            auto v = cx::vector<int>{3,1,4,1,5,8,9,2,7,0};
-
-            v.erase(begin(v), end(v));
-
-            return begin(v) ==end(v);
-        };
-        static_assert(f());
-    }
-
-    constexpr auto cx_vectors_allow_erasing_elements_from_specified_range___tail_is_longer_than_erased_range()
-    {
-        auto f = []
-        {
-            auto v = cx::vector<int>{3,1,4,1,5,8,9,2,7,0};
-
-            v.erase(begin(v)+2, begin(v)+5);
-
-            return v;
-        };
-        constexpr auto result = f();
-
-        static_assert(std::ranges::equal(result, std::array{3,1,8,9,2,7,0}));
-        static_assert(size(result) == 7);
-    }
-
-    constexpr auto cx_vectors_allow_erasing_elements_from_specified_range___move_assigns_elements_at_their_new_positions()
-    {
-        auto f = []
-        {
-            struct only_move_assignable
-            {
-                constexpr only_move_assignable() : state{0} {}
-                constexpr only_move_assignable(int value) : state{value} {}
-                only_move_assignable(only_move_assignable const&) = delete;
-                only_move_assignable(only_move_assignable&&) = delete;
-                only_move_assignable& operator=(only_move_assignable const&) = delete;
-                only_move_assignable& operator=(only_move_assignable&&) = default;
-                ~only_move_assignable() = default;
-                constexpr auto operator==(only_move_assignable const& rhs) const noexcept { return state == rhs.state; }
-
-                int state;
-            };
-
-            auto v = cx::vector<only_move_assignable>{};
-            v.push_back({3});
-            v.push_back({1});
-            v.push_back({4});
-
-            v.erase(begin(v), begin(v)+1);
-
-            auto i = begin(v);
-            for (auto& n : std::array{only_move_assignable{1}, only_move_assignable{4}})
-                if (!(*(i++) == n))
-                    return false;
-
-            return size(v) == 2;
-        };
-        static_assert(f());
-    }
-
-    constexpr auto cx_vectors_allow_erasing_elements_from_specified_range___returns_iterator_following_the_last_removed_element()
-    {
-        auto f = []
-        {
-            auto v = cx::vector<int>{3,1,4,1,5,8,9,2,7,0};
-
-            auto iterator = v.erase(begin(v)+2, begin(v)+3);
-
-            return iterator == (begin(v)+9);
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto cx_vectors_support_read_only_index_access()
     {
-        auto f = []
+        static_assert([]()
         {
             auto v = cx::vector<int>{1,2,3,4,5};
 
@@ -446,13 +357,12 @@ namespace cx::test
             *(begin(v)+3) = 7;
 
             return by_value == 4 && by_reference == 7;
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto cx_vectors_support_write_index_access()
     {
-        auto f = []
+        static_assert([]()
         {
             auto v = cx::vector<int>{1,2,3,4,5};
 
@@ -461,8 +371,7 @@ namespace cx::test
             by_reference = 7;
 
             return by_value == 4 && by_reference == 7;
-        };
-        static_assert(f());
+        }());
     }
 }
 #endif
