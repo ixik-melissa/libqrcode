@@ -99,10 +99,6 @@ int main()
 ## How to run the tests
 If you would like to run the tests, one has to add the following _CMake_ flag: `-DQRCODE_TESTS_ENABLED:BOOL=True`
 
-## Debug builds using MSVC
-Building with tests enabled in _Debug_ configuration won't build due to an issue in _Microsoft_'s STL implementation. 
-_Release_ configuration works though.
-
 # CI builds
 The CI pipeline consist of test builds and demo builds for _GCC_, _Clang_, _AppleClang_ and _MSVC_. 
 If and only if all builds were successful, the CI state is green.
