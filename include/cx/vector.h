@@ -248,7 +248,7 @@ namespace cx::test
             auto const v = cx::vector<int>{1,2,3};
             return std::ranges::equal(v, std::array{1,2,3})
                 && size(v) == 3;
-        });
+        }());
     }
 
     constexpr auto cx_vectors_can_be_initialized_with_a_specified_number_of_elements_equal_or_less_than_cx_vectors_capacity()
