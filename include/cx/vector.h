@@ -146,17 +146,10 @@ namespace cx::detail
         container elements;
     };
 
-    using std::ranges::begin;
-    using std::ranges::end;
-    using std::ranges::rbegin;
-    using std::ranges::rend;
-    using std::ranges::size;
-    using std::ranges::empty;
-
     template<class T>
     constexpr auto operator==(vector<T> const& a, vector<T> const& b) noexcept 
     { 
-        return std::equal(begin(a), end(a), begin(b), end(b));
+        return std::ranges::equal(a, b);
     }
 }
 
@@ -167,6 +160,13 @@ namespace cx
 #ifdef _MSC_VER 
     template<class T>
     using vector = std::conditional_t<std::is_constant_evaluated(), cx::detail::vector<T>, std::vector<T>>;
+
+    using std::ranges::begin;
+    using std::ranges::end;
+    using std::ranges::rbegin;
+    using std::ranges::rend;
+    using std::ranges::size;
+    using std::ranges::empty;
 #else
     template<class T>
     using vector = std::vector<T>;
