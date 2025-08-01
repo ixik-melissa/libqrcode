@@ -213,6 +213,8 @@ int main(int argc, char** argv)
     }
     print_options(std::cerr, *options);
     
+    using std::begin;
+    using std::end;
     auto message = options->message;
     auto std_input = cx::vector<char>{};
     if (empty(options->message))
