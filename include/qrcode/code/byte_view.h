@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@
 #include <concepts>
 #include <iterator>
 #include <optional>
+#include <limits>
 
 namespace qrcode::code::detail
 {
@@ -90,13 +91,13 @@ namespace qrcode::code::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            byte_view_iterator const& iterator, std::default_sentinel_t const&) noexcept
+            byte_view_iterator const& iterator, std::default_sentinel_t const&) noexcept -> bool
         {
             return !iterator.current_value.has_value();
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            byte_view_iterator const& a, byte_view_iterator const& b) noexcept
+            byte_view_iterator const& a, byte_view_iterator const& b) noexcept -> bool
         {
             return a.bit_iterator == b.bit_iterator 
                 && a.current_value == b.current_value;

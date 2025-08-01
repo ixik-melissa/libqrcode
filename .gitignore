@@ -1,3 +1,6 @@
 .vscode/
-build.log
-qrcode.svg
+build/
+out/
+.vs/
+.DS_Store
+CMakeSettings.json

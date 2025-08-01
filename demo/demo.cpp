@@ -213,12 +213,14 @@ int main(int argc, char** argv)
     }
     print_options(std::cerr, *options);
     
+    using std::begin;
+    using std::end;
     auto message = options->message;
     auto std_input = cx::vector<char>{};
     if (empty(options->message))
     {
         std_input = read_message(std::cin);
-        message = std::string_view{cx::begin(std_input), cx::end(std_input)};
+        message = std::string_view{begin(std_input), end(std_input)};
     }
     print_message(std::cerr, message);
 

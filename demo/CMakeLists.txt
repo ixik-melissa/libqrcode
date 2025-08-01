@@ -1,7 +1,7 @@
 # 
 # The MIT License
 # 
-# Copyright (c) 2021 Sebastian Bauer
+# Copyright (c) 2025 Melissa Bauer
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,12 +30,16 @@ endfunction()
 project(libqrcode_demo)
 
 enable_testing()
-enable_cxx(20)
+enable_cxx(23)
 
-set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-find_package(libqrcode REQUIRED)
+set(LIBQRCODE_INCLUDE_DIR CACHE PATH "Path to libqrcode include directory")
+if(NOT LIBQRCODE_INCLUDE_DIR)
+    message(FATAL_ERROR "Please specify location of libqrcode include folder")
+endif()
 
 add_executable(demo demo.cpp)
-target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Linux>:-Wall -Wextra -Wpedantic>)
-target_compile_options(demo PRIVATE $<$<PLATFORM_ID:Darwin>:-Wall -Wextra -Wpedantic>)
-target_link_libraries(demo PRIVATE libqrcode::libqrcode)
+target_include_directories(demo PRIVATE ${LIBQRCODE_INCLUDE_DIR})
+target_compile_options(demo PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>)
+target_compile_options(demo PRIVATE $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra -Wpedantic -Werror>)
+target_compile_options(demo PRIVATE $<$<CXX_COMPILER_ID:AppleClang>:-Wall -Wextra -Wpedantic -Werror>)
+target_link_options(demo PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/STACK:16777216>)

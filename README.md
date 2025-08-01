@@ -1,14 +1,13 @@
 # Introduction
-libqrcode is C++20 header-only library for generating QR/Micro QR Codes.
+libqrcode is C++23 header-only library for generating QR/Micro QR Codes.
 
 Features include:
 * Header-only library
 * Completely constexpr
 * Code is (unit-)tested with `static_asserts` during compile-time
 * Utilizes standard library only
-* Uses C++20 Ranges
+* Uses Ranges
 * No C++ exceptions (however)
-* Supports Conan package manager
 
 # QR support
 Supported: 
@@ -29,13 +28,9 @@ Supported:
 * Encodings: Numeric, alphanumeric, byte and kanji encoding (where possible)
 
 # Usage
-One can either use the conan recipe provided in this repository or directly integrate the library 
-into your project. As this libary is header-only, it should be quite easy to setup. 
-Add the libqrcode include directory to your project's header search path
-
 In your project, just in include the header [`qrcode/qrcode.h`](include/qrcode/qrcode.h). 
-Micro QR api is located within namespace `micro_qr`.
-QR api is located within namespace `qr`.
+Micro QR API is located within namespace `micro_qr`.
+QR API is located within namespace `qr`.
 
 #### Simple example
 ```
@@ -89,41 +84,21 @@ int main()
 ```
 
 # Requirements
-* C++20 compiler and standard library
+* C++ compiler and standard library
 * Supported:
-   * gcc10 and libstdc++-10-dev or higher (see [`test/linux.Dockerfile`](test/linux.Dockerfile))
-   * msvc: Visual Studio 2019 16.10.0 (see [`test/win.Dockerfile`](test/win.Dockerfile))
-* Not supported: 
-  * clang doesn't seem to support all featured of C++20 needed to make this work
-  * macOS (due to lack of C++20 features), support will be added in the future
+   * gcc13 and libstdc++-13-dev
+   * clang15 and libstdc++-13-dev
+   * msvc: Visual Studio 2022 17.14.9
+   * macos: AppleClang 16.0.0
 
 # How to build
 * Since the library is header-only, building is actually not necessary.
-* Just put the `include` folder of this project into your header search path and it should just work.
+* Just place the `include` folder of this project into your header search path.
 * However, if you'd like to run the tests, please select the top-level of the project in order to run _CMake_.
-* For more information, please have a look at the _Dockerfile_ in the test folder and consider the remarks below.
 
 ## How to run the tests
-If you would like to run the tests, one has to add the following cmake flag: `-DQRCODE_TESTS_ENABLED:BOOL=True`
-
-## Debug builds using MSVC
-Building with tests enabled in _Debug_ configuration won't build due to an issue in _Microsoft_'s STL implementation. _Release_ configuration works though.
+If you would like to run the tests, one has to add the following _CMake_ flag: `-DQRCODE_TESTS_ENABLED:BOOL=True`
 
 # CI builds
-CI builds usually consists of a test build and a conan demo build. 
-If and only if both builds were successful, the CI state is green.
-
-# Tests
-All tests are usually built and run in docker containers.
-See [`test/linux.Dockerfile`](test/linux.Dockerfile) for more info.
-You can also hit [`test/linux_run.sh`](test/linux_run.sh) which creates and 
-runs the docker image for you.
-
-# Conan
-The library supports _Conan_ out of the box. The [`conan_demo/Dockerfile`](conan_demo/Dockerfile) 
-and [`conan_demo/run.sh`](conan_demo/run.sh) are for demonstration purposes.
-It creates a small command-line tool which can create QR symbols from a given text message.
-
-Please note: 
-The _Conan_ build is part of the CI checks. 
-The tool has to be compiled successfully in order to clear this stage.
+The CI pipeline consist of test builds and demo builds for _GCC_, _Clang_, _AppleClang_ and _MSVC_. 
+If and only if all builds were successful, the CI state is green.

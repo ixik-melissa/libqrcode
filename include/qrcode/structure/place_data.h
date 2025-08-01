@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ namespace qrcode::structure
             *i = *d;
 
         assert(d == end(data));
-        std::fill(i, end(range), module_traits<T>::make_data(0));
+        std::ranges::fill(i, end(range), module_traits<T>::make_data(0));
     }
 }
 

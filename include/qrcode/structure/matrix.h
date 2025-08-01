@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -130,30 +130,37 @@ namespace qrcode::structure::test
 {
     constexpr auto matrix_elements_are_all_default_initialized()
     {
-        constexpr auto any_size = dimension{3, 2};
-        
-        constexpr auto any_matrix = matrix<int>{any_size};
+        static_assert([]()
+        {
+            constexpr auto any_size = dimension{3, 2};
+            
+            auto const any_matrix = matrix<int>{any_size};
 
-        static_assert(element_at(any_matrix, {0,0}) == 0);
-        static_assert(element_at(any_matrix, {1,0}) == 0);
-        static_assert(element_at(any_matrix, {2,0}) == 0);
-        static_assert(element_at(any_matrix, {0,1}) == 0);
-        static_assert(element_at(any_matrix, {1,1}) == 0);
-        static_assert(element_at(any_matrix, {2,1}) == 0);
+            return element_at(any_matrix, {0,0}) == 0
+                && element_at(any_matrix, {1,0}) == 0
+                && element_at(any_matrix, {2,0}) == 0
+                && element_at(any_matrix, {0,1}) == 0
+                && element_at(any_matrix, {1,1}) == 0
+                && element_at(any_matrix, {2,1}) == 0;
+        }());
     }
 
     constexpr auto matrix_elements_can_be_initialized_by_fill_value()
     {
-        constexpr auto any_size = dimension{3, 2};
-        
-        constexpr auto any_matrix = matrix<int>{any_size, -1};
+        static_assert([]()
+        {
+            constexpr auto any_size = dimension{3, 2};
+            constexpr auto any_fill_value = 42;
+            
+            auto const any_matrix = matrix<int>{any_size, any_fill_value};
 
-        static_assert(element_at(any_matrix, {0,0}) == -1);
-        static_assert(element_at(any_matrix, {1,0}) == -1);
-        static_assert(element_at(any_matrix, {2,0}) == -1);
-        static_assert(element_at(any_matrix, {0,1}) == -1);
-        static_assert(element_at(any_matrix, {1,1}) == -1);
-        static_assert(element_at(any_matrix, {2,1}) == -1);
+            return element_at(any_matrix, {0,0}) == any_fill_value
+                && element_at(any_matrix, {1,0}) == any_fill_value
+                && element_at(any_matrix, {2,0}) == any_fill_value
+                && element_at(any_matrix, {0,1}) == any_fill_value
+                && element_at(any_matrix, {1,1}) == any_fill_value
+                && element_at(any_matrix, {2,1}) == any_fill_value;
+        }());
     }
 
     constexpr auto matrices_define_their_element_type_as_value_type()
@@ -182,7 +189,7 @@ namespace qrcode::structure::test
 
     constexpr auto matrices_support_random_access_to_their_elements_when_given_matrix_is_non_const()
     {
-        auto f = []
+        static_assert([]()
         {
             auto any_matrix = matrix<int>{dimension{5,9}};
             constexpr auto any_position = position{4,6};
@@ -195,13 +202,12 @@ namespace qrcode::structure::test
 
             return element_at(any_matrix, any_position) == any_value
                 && element_at(any_matrix, other_position) == other_value;
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto matrices_support_readonly_access_to_their_elements_when_given_matrix_is_const()
     {
-        auto f = []
+        static_assert([]()
         {
             auto any_matrix = matrix<int>{dimension{5,9}};
             constexpr auto any_position = position{4,6};
@@ -215,24 +221,26 @@ namespace qrcode::structure::test
 
             return element_at(const_matrix, any_position) == any_value
                 && element_at(const_matrix, other_position) == other_value;
-        };
-        static_assert(f());
+        }());
     }
 
     constexpr auto matrix_can_be_asked_whether_a_point_lies_inside()
     {
-        constexpr auto any_size = dimension{3, 2};
+        static_assert([]()
+        {
+            constexpr auto any_size = dimension{3, 2};
         
-        constexpr auto any_matrix = matrix<int>{any_size};
+            auto const any_matrix = matrix<int>{any_size};
 
-        static_assert(contains(any_matrix, {0,0}));
-        static_assert(!contains(any_matrix, {-1,0}));
-        static_assert(contains(any_matrix, {1,0}));
-        static_assert(!contains(any_matrix, {0,-1}));
-        static_assert(contains(any_matrix, {2,1}));
-        static_assert(!contains(any_matrix, {5,1}));
-        static_assert(contains(any_matrix, {0,1}));
-        static_assert(!contains(any_matrix, {0,10}));
+            return contains(any_matrix,  { 0,  0})
+                && !contains(any_matrix, {-1,  0})
+                && contains(any_matrix,  { 1,  0})
+                && !contains(any_matrix, { 0, -1})
+                && contains(any_matrix,  { 2,  1})
+                && !contains(any_matrix, { 5,  1})
+                && contains(any_matrix,  { 0,  1})
+                && !contains(any_matrix, { 0, 10});
+        }());
     }    
 }
 #endif

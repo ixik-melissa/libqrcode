@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,44 +60,47 @@ namespace qrcode::micro_qr
 {
     constexpr auto finalize_determines_the_best_mask_and_stores_its_id_in_given_symbol()
     {
-        using qrcode::structure::make_matrix;
-        using namespace std::literals;
-        constexpr auto any_designator = *make_designator(symbol_version::M2, error_correction::level_L);
-        constexpr auto any_unmasked = make_matrix<char>({13,13},
-            "*******-*-*-*"
-            "*-----*--++,,"
-            "*-***-*--,,++"
-            "*-***-*--,,,+"
-            "*-***-*--++,+"
-            "*-----*--,,,,"
-            "*******--,,,+"
-            "---------,,+,"
-            "*--------,,,,"
-            "-,,,+,,+,,+,,"
-            "*++++,+++,,,,"
-            "-,,,+,,,,+,,,"
-            "*,,,+,+,,,++,"sv
-        );
-        constexpr auto selected_mask_id = 1;
-
-        static_assert(finalize(any_unmasked, any_designator) == symbol{
-            any_designator, selected_mask_id,
-            make_matrix<char>({13,13},
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
+            using namespace std::literals;
+            constexpr auto any_designator = *make_designator(symbol_version::M2, error_correction::level_L);
+            auto const any_unmasked = make_matrix<char>({13,13},
                 "*******-*-*-*"
-                "*-----*-*++,+"
+                "*-----*--++,,"
+                "*-***-*--,,++"
+                "*-***-*--,,,+"
                 "*-***-*--++,+"
-                "*-***-*--++++"
-                "*-***-*-*++,,"
-                "*-----*-*,,,+"
-                "*******--++++"
-                "---------++,,"
-                "**-*----*,,,+"
-                "-++,+,+,+,+,+"
-                "*++,,+++++++,"
-                "-,,+,+,,,,++,"
-                "*++,+,,++,+++"sv
-            )
-        });
+                "*-----*--,,,,"
+                "*******--,,,+"
+                "---------,,+,"
+                "*--------,,,,"
+                "-,,,+,,+,,+,,"
+                "*++++,+++,,,,"
+                "-,,,+,,,,+,,,"
+                "*,,,+,+,,,++,"sv
+            );
+            constexpr auto selected_mask_id = 1;
+
+            return finalize(any_unmasked, any_designator) == symbol{
+                any_designator, selected_mask_id,
+                make_matrix<char>({13,13},
+                    "*******-*-*-*"
+                    "*-----*-*++,+"
+                    "*-***-*--++,+"
+                    "*-***-*--++++"
+                    "*-***-*-*++,,"
+                    "*-----*-*,,,+"
+                    "*******--++++"
+                    "---------++,,"
+                    "**-*----*,,,+"
+                    "-++,+,+,+,+,+"
+                    "*++,,+++++++,"
+                    "-,,+,+,,,,++,"
+                    "*++,+,,++,+++"sv
+                )
+            };
+        }());
     }
 }
 #endif

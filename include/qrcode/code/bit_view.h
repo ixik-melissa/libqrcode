@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,9 +97,9 @@ namespace qrcode::code::detail
         constexpr bit_view_sentinel() noexcept = default;
 
         template<class Iterator_, class Sentinel_>
-        [[nodiscard]] friend constexpr auto operator==(
+        friend constexpr auto operator==(
             bit_view_iterator<Iterator_> const& iterator, 
-            bit_view_sentinel<Sentinel_> const& sentinel) noexcept;
+            bit_view_sentinel<Sentinel_> const& sentinel) noexcept -> bool;
 
     private:
         template<class Iterator>
@@ -115,7 +115,7 @@ namespace qrcode::code::detail
     template<class Iterator, class Sentinel>
     [[nodiscard]] constexpr auto operator==(
         bit_view_iterator<Iterator> const& iterator, 
-        bit_view_sentinel<Sentinel> const& sentinel) noexcept
+        bit_view_sentinel<Sentinel> const& sentinel) noexcept -> bool
     {
         return sentinel.equal(iterator);
     }

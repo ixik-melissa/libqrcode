@@ -1,7 +1,7 @@
 # 
 # The MIT License
 # 
-# Copyright (c) 2021 Sebastian Bauer
+# Copyright (c) 2025 Melissa Bauer
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,25 +23,24 @@
 # 
 cmake_minimum_required(VERSION 3.15)
 
-function(run_after_build target)
-    add_custom_command(TARGET ${target} POST_BUILD COMMAND ${target})
-endfunction()
-
 add_executable(libqrcode_test main.cpp)
 
-target_compile_options(libqrcode_test PRIVATE $<$<PLATFORM_ID:Linux>:-Wall -Wextra -Wpedantic>)
-target_compile_options(libqrcode_test PRIVATE $<$<PLATFORM_ID:Darwin>:-Wall -Wextra -Wpedantic>)
-
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:GNU>:
+    -Wall -Wextra -Wpedantic -Werror
     -fconstexpr-depth=9999999 -fconstexpr-ops-limit=9999999999 -fconcepts-diagnostics-depth=10>)
+
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:Clang>:
+    -Wall -Wextra -Wpedantic -Werror 
     -fconstexpr-steps=999999999>)
+
+target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:AppleClang>:
+    -Wall -Wextra -Wpedantic -Werror 
+    -fconstexpr-steps=999999999>)
+    
 target_compile_options(libqrcode_test PRIVATE $<$<CXX_COMPILER_ID:MSVC>:
     /constexpr:steps999999999>)
 
 target_compile_options(libqrcode_test PRIVATE -DQRCODE_TESTS_ENABLED)
 target_link_libraries(libqrcode_test PRIVATE qrcode)
-
-run_after_build(libqrcode_test)
 
 add_test(NAME libqrcode_test COMMAND libqrcode_test)

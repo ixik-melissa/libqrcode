@@ -1,7 +1,7 @@
 # 
 # The MIT License
 # 
-# Copyright (c) 2021 Sebastian Bauer
+# Copyright (c) 2025 Melissa Bauer
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ endfunction()
 project(libqrcode)
 
 enable_testing()
-enable_cxx(20)
+enable_cxx(23)
 
 add_library(qrcode INTERFACE)
 
@@ -166,9 +166,8 @@ target_sources(qrcode INTERFACE
 )
 
 target_include_directories(qrcode INTERFACE "include")
-target_link_libraries(qrcode INTERFACE $<$<PLATFORM_ID:Linux>:stdc++ m>)
-target_link_libraries(qrcode INTERFACE $<$<PLATFORM_ID:Darwin>:stdc++ m>)
-target_compile_options(qrcode INTERFACE $<$<PLATFORM_ID:Windows>:/std:c++latest>)
+target_link_libraries(qrcode INTERFACE $<$<CXX_COMPILER_ID:Clang>:stdc++ m>)
+target_link_libraries(qrcode INTERFACE $<$<CXX_COMPILER_ID:AppleClang>:m>)
 
 if (QRCODE_TESTS_ENABLED)
     add_subdirectory(test)

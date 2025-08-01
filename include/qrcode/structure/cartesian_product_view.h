@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -86,7 +86,7 @@ namespace qrcode::structure::detail
         }
 
         [[nodiscard]] friend constexpr auto operator==(
-            cartesian_iterator const& iterator, std::default_sentinel_t) noexcept
+            cartesian_iterator const& iterator, std::default_sentinel_t) noexcept -> bool
         {
             using std::ranges::end;
             return iterator.i1 == end(*(iterator.range1));
@@ -173,11 +173,10 @@ namespace qrcode::structure::test
             auto range = 
                 cartesian_product_view{std::array{1,2,3,4}, std::array{6,7,8}};
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{
-                {1,6},{2,6},{3,6},{4,6},
-                {1,7},{2,7},{3,7},{4,7},
-                {1,8},{2,8},{3,8},{4,8}
+            return std::ranges::equal(range, std::array{
+                position{1,6}, position{2,6}, position{3,6}, position{4,6},
+                position{1,7}, position{2,7}, position{3,7}, position{4,7},
+                position{1,8}, position{2,8}, position{3,8}, position{4,8}
             });
         };
         static_assert(f());
@@ -190,12 +189,14 @@ namespace qrcode::structure::test
             auto const range = 
                 cartesian_product_view{std::array{1,2,3,4}, std::array{6,7,8}};
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{
-                {1,6},{2,6},{3,6},{4,6},
-                {1,7},{2,7},{3,7},{4,7},
-                {1,8},{2,8},{3,8},{4,8}
-            });
+            return std::ranges::equal(
+                range, 
+                std::array{
+                    position{1,6}, position{2,6}, position{3,6}, position{4,6}, 
+                    position{1,7}, position{2,7}, position{3,7}, position{4,7}, 
+                    position{1,8}, position{2,8}, position{3,8}, position{4,8}
+                }
+             );
         };
         static_assert(f());
     }
@@ -207,8 +208,13 @@ namespace qrcode::structure::test
             auto const range = 
                 views::cartesian_product(std::array{1,2}, std::array{6,7,8});
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{{1,6},{2,6},{1,7},{2,7},{1,8},{2,8}});
+            return std::ranges::equal(
+                range, 
+                std::array{
+                    position{1,6}, position{2,6}, position{1,7}, 
+                    position{2,7},position{1,8},position{2,8}
+                }
+            );
         };
         static_assert(f());
     }
@@ -221,8 +227,10 @@ namespace qrcode::structure::test
                 views::cartesian_product(std::array{1,2}, std::array{6,7,8})
                 | std::views::filter([](auto point) { return point.y > 6; });
 
-            using positions = std::initializer_list<position>;
-            return std::ranges::equal(range, positions{{1,7},{2,7},{1,8},{2,8}});
+            return std::ranges::equal(
+                range, 
+                std::array{position{1,7},position{2,7},position{1,8},position{2,8}}
+            );
         };
         static_assert(f());
     }

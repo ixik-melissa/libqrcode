@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2021 Sebastian Bauer
+ * Copyright (c) 2025 Melissa Bauer
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,15 +85,18 @@ namespace qrcode::qr::detail::test
 {
     constexpr auto dark_module_count_returns_the_number_of_dark_modules()
     {
-        using qrcode::structure::make_matrix;
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
 
-        constexpr auto some_modules = make_matrix<int>({7,3}, std::array{
-            1,0,0,0,0,0,1,
-            1,0,1,1,0,0,1,
-            0,0,0,0,0,0,1
-        });
+            auto const some_modules = make_matrix<int>({7,3}, std::array{
+                1,0,0,0,0,0,1,
+                1,0,1,1,0,0,1,
+                0,0,0,0,0,0,1
+            });
 
-        static_assert(dark_module_count(some_modules) == 7);
+            return dark_module_count(some_modules) == 7;
+        }());
     }
 
     constexpr auto nearest_five_percentage_step_returns_the_distance_to_50_percent_in_five_percent_steps()
@@ -118,15 +121,18 @@ namespace qrcode::qr::test
 {
     constexpr auto dark_module_score_returns_the_penalty_score_derived_from_number_of_five_percent_steps_away_from_50_percent_dark_modules()
     {
-        using qrcode::structure::make_matrix;
+        static_assert([]()
+        {
+            using qrcode::structure::make_matrix;
 
-        constexpr auto some_modules = make_matrix<int>({7,3}, std::array{
-            1,0,0,0,0,0,1,
-            1,0,1,1,0,0,1,
-            0,0,0,0,0,0,1
-        });
+            auto const some_modules = make_matrix<int>({7,3}, std::array{
+                1,0,0,0,0,0,1,
+                1,0,1,1,0,0,1,
+                0,0,0,0,0,0,1
+            });
 
-        static_assert(dark_module_score(some_modules) == (3 * penalty_weight(4)));
+            return dark_module_score(some_modules) == (3 * penalty_weight(4));
+        }());
     }
 }
 #endif
